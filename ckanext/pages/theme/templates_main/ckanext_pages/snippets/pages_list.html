@@ -1,19 +1,14 @@
 {% set pages_total = pages|length %}
 {% set action = '{0}_show'.format(type) %}
 
-{#
+
 {% if type == 'blog' %}
-  <h2>{{ _('1 blog article') if pages_total == 1 else _('{0} blog articles').format(pages_total) }}</h2>
+
+  <h2 class="number-of-blogs">{{ _('1 blog') if pages_total == 1 else _('{0} blogs').format(pages_total) }}</h2>
 {% else %}
   <h2>{{ _('1 page') if pages_total == 1 else _('{0} pages').format(pages_total) }}</h2>
 {% endif %}
-#}
 
-{% if type == 'blog' %}
-  <h2>Blog</h2>
-{% else %}
- <h2>Pages</h2>
-{% endif %}
 
 {% if pages %}
   {% set editor = h.get_wysiwyg_editor() %}
@@ -52,7 +47,9 @@
             {% endif %}
         </div>
       {% else %}
-        <div class="span11">
+      <h2 id="notfound" style="text-align:center; display: none"> No Blogs Found </h2>
+          
+        <div class="span11" style="margin-left:15px">
           <h3 class="dataset-heading">
             <a href="{{ url }}" >{{ page.title }}</a>
             {% if page.publish_date %}
@@ -63,13 +60,16 @@
             {% if editor %}
             <div>
               {{page.content|striptags|truncate}}
+              
             </div>
             {% else %}
-              {{ h.markdown_extract(page.content) }}
+            {{page.content[0]}}
+              <!-- {{ h.markdown_extract(page.content) }} -->
             {% endif %}
           {% else %}
             <p class="empty">{{ _('This page currently has no content') }}</p>
           {% endif %}
+          
         </div>
       {% endif %}
       </div>
@@ -82,3 +82,6 @@
       <p class="empty">{{ _('There are currently no pages here') }}</p>
     {% endif %}
 {% endif %}
+
+
+
