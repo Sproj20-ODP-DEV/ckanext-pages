@@ -4,84 +4,67 @@
 
 {% if type == 'blog' %}
 
-  <h2 class="number-of-blogs">{{ _('1 blog') if pages_total == 1 else _('{0} blogs').format(pages_total) }}</h2>
+<h2 class="number-of-blogs">{{ _('1 blog') if pages_total == 1 else _('{0} blogs').format(pages_total) }}</h2>
 {% else %}
-  <h2>{{ _('1 page') if pages_total == 1 else _('{0} pages').format(pages_total) }}</h2>
+<h2>{{ _('Pages')}}</h2>
 {% endif %}
 
 
 {% if pages %}
-  {% set editor = h.get_wysiwyg_editor() %}
+{% set editor = h.get_wysiwyg_editor() %}
 
-    {% for page in pages %}
-      {% if id %} {# this is for orgs and groups #}
-        {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action=action, id=id, page='/' + page.name) %}
-      {% elif type == 'blog' %}
-        {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + page.name) %}
-      {% else %}
-        {% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action='pages_show', page='/' + page.name) %}
-      {% endif %}
-      <div class="row page-list-item dataset-item">
-      {% if page.image %}
-        <div class="span3 image">
-          <a style="background-image:url({{ page.image }})" href="{{ url }}">
-          </a>
-        </div>
-        <div class="span8">
-           <h3 class="dataset-heading">
-              <a href="{{ url }}" >{{ page.title }}</a>
-              {% if page.publish_date %}
-                 <small class="date"> {{ h.render_datetime(page.publish_date) }} </small>
-              {% endif %}
-            </h3>
-            {% if page.content %}
-              {% if editor %}
-              <div>
-                {{page.content|striptags|truncate}}
-              </div>
-              {% else %}
-                {{ h.markdown_extract(page.content) }}
-              {% endif %}
-            {% else %}
-              <p class="empty">{{ _('This page currently has no content') }}</p>
-            {% endif %}
-        </div>
-      {% else %}
-      <h2 id="notfound" style="text-align:center; display: none"> No Blogs Found </h2>
-          
-        <div class="span11" style="margin-left:15px">
-          <h3 class="dataset-heading">
-            <a href="{{ url }}" >{{ page.title }}</a>
-            {% if page.publish_date %}
-               <small class="date"> {{ h.render_datetime(page.publish_date) }} </small>
-            {% endif %}
-          </h3>
-          {% if page.content %}
-            {% if editor %}
-            <div>
-              {{page.content|striptags|truncate}}
-              
+<div class="row">
+
+{% for page in pages %}
+{% if id %} {# this is for orgs and groups #}
+{% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action=action, id=id, page='/' + page.name) %}
+{% elif type == 'blog' %}
+{% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + page.name) %}
+{% else %}
+{% set url = h.url_for(controller='ckanext.pages.controller:PagesController', action='pages_show', page='/' + page.name) %}
+{% endif %}
+    <h2 id="notfound" style="text-align: center;display:none"> No Blog Found </h2>
+    <div class="col-sm-6 col-md-4">
+      <a class="homepage-full-blog" href="{{url}}">
+      </a>
+      <div class="feed-card thumbnail blog-card"><a class="homepage-full-blog"
+          href={{url}}>
+
+          <img class="feed-image" src="{{page.image}}" alt="Feed Image">
+
+          <div class="caption">
+            <h4 class="homepage-heading blog-heading">
+              {{ page.title }}
+            </h4>
+            <hr class="divider">
+            <div class="homepage-heading blog-content">
+
+              <p> {{page.content|truncate}} </p>
+
             </div>
-            {% else %}
-            {{page.content[0]}}
-              <!-- {{ h.markdown_extract(page.content) }} -->
-            {% endif %}
-          {% else %}
-            <p class="empty">{{ _('This page currently has no content') }}</p>
-          {% endif %}
-          
-        </div>
-      {% endif %}
+          </div>
+        </a><a class="homepage-read-more" href={{url}}>Read More</a>
       </div>
-    {% endfor %}
+
+    </div>
+
+
+
+
+
+
+{% endfor %}
+</div>
 
 {% else %}
-    {% if type == 'blog' %}
-      <p class="empty">{{ _('There are currently no blog articles here') }}</p>
-    {% else %}
-      <p class="empty">{{ _('There are currently no pages here') }}</p>
-    {% endif %}
+{% if type == 'blog' %}
+<p class="empty">{{ _('There are currently no blog articles here') }}</p>
+{% else %}
+<p class="empty">{{ _('There are currently no pages here') }}</p>
 {% endif %}
+{% endif %}
+
+
 
 
 

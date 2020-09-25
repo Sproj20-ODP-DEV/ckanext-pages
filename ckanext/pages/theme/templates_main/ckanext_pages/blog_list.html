@@ -20,9 +20,8 @@
   </div>
   <div class="hidden-sm hidden-xs input-group search-input-group">
     <input oninput="(function(){
-        // console.log(document.getElementById('field-giant-search').value.toLowerCase())
         let flag = 0
-        let blogs = document.getElementsByClassName('span11')
+        let blogs = document.getElementsByClassName('col-sm-6 col-md-4')
             let target = document.getElementById('field-giant-search').value.toLowerCase()
             if (target){
                 document.getElementsByClassName('number-of-blogs')[0].style.display = 'none'
@@ -77,4 +76,5 @@
      {{ self.primary_content() }}
    </div>
 {% endblock %}
+
 
